@@ -3,7 +3,7 @@ ESP32-H2-MINI-1-N4,U1,ESP32-H2-MINI-1,search lcsc.com,Extended
 AMS1117-3.3,U2,SOT-223,C6186,Basic
 TYPE-C-31-M-12 (USB-C 16p),J1,USB-C SMD,C165948,Extended
 WS2812B-B/W,LED1,5050,C2761795 (verify),Extended
-Right-angle SMD tact switch,SW1,see note,C240298 (verify footprint),Extended
+SMD tact switch 5.1x5.1x1.5 mm (bottom side),SW1,TS-1187A,C318884 (verify height),Extended
 1N4148W,D1,SOD-123,C81598,Basic
 22uF,C2,0805,C45783,Basic
 10uF,"C1,C3",0805,C15850,Basic

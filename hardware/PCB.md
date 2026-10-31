@@ -1,8 +1,9 @@
 # Indicator light PCB
 
-2-layer, 1.6 mm, 30.4 x 30.4 mm, corner radius 2.5 (`board_outline.dxf`).
-Single-sided assembly (top). Coordinates below: board centre = (0,0), +Y = antenna edge, -Y = USB edge.
-`generate.py` regenerates `body.stl`, `cap.stl` and the outline. It needs a venv with manifold3d, trimesh and ezdxf.
+2-layer, 1.6 mm, 32.4 x 32.4 mm, corner radius 10 (`board_outline.dxf`), 0.3 mm clearance to the enclosure walls.
+4 mounting holes Ø2.2 at (±11.5, ±11.5) for M2 x 5 self-tapping screws (PT/plastite) into the enclosure bosses.
+Top-side assembly, except SW1 on the bottom. Coordinates below: board centre = (0,0), +Y = antenna edge, -Y = USB edge.
+Enclosure: `base_indicator_light.stl` + `cap_indicator_light.stl`. PCB bottom sits on the bosses at z=4.0 above the table.
 
 ## Netlist
 
@@ -28,11 +29,12 @@ Download mode: hold SW1 while plugging in.
 
 | Ref | Position (mm) | Note |
 |---|---|---|
-| U1 | centre (0, 6.9), antenna to +Y | Module top edge flush with board edge. No copper on either layer under the antenna area |
-| J1 | (0, -15.2) edge, opening facing -Y | Matches the enclosure hole (centre 1.63 mm above PCB top) |
+| U1 | centre (0, 7.9), antenna to +Y | Module top edge flush with board edge. No copper on either layer under the antenna area |
+| J1 | (0, -16.2) edge, opening facing -Y | Matches the enclosure hole (centre 1.63 mm above PCB top, z=7.23) |
 | LED1 | (0, -4.6) | Between J1 and U1, under the cap |
-| SW1 | (15.2, -7) edge, actuator facing +X | Actuator flush with board edge. The enclosure block reaches 0.1 mm short of it |
-| U2, C1-C3 | left area x -15..-7, y -15..-2 | |
-| R1-R7, C4-C6, D1 | right area x 7..15, y -15..-2 | C4 next to U1.3, C6 next to LED1 |
+| SW1 | (-5, -8.5) **bottom side**, actuator facing down | Pressed by the floor flexure plunger (top at z=2.2, 0.3 mm gap to a 1.5 mm switch) |
+| U2, C1-C3 | left area x -16..-7, y -8.5..8.5 | |
+| R1-R7, C4-C6, D1 | right area x 7..16, y -8.5..8.5 | C4 next to U1.3, C6 next to LED1 |
 
-Board rests on 4 corner posts (4 x 4 mm) — keep corners 4 x 4 mm free of bottom-side protrusions.
+Keep Ø6 mm around each mounting hole free of copper and parts on both layers (screw head + boss).
+Use nylon screws for the two +Y holes if the antenna detunes.
