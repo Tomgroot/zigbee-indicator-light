@@ -15,16 +15,16 @@ FP = dict(
 )
 # ref: (footprint, value, x, y, rotation, {pad name: net})
 PARTS = {
-    "U1": ("esp", "ESP32-H2-MINI-1", 0, -5.22, 0, {
-        "3": V33, "15": V33, "8": "EN", "23": "BOOT", "22": "IO8", "25": "IO25", "18": "IO4",
-        "26": "USB_DN", "27": "USB_DP", "1": GND, "2": GND, "11": GND, "14": GND,
+    "U1": ("esp", "ESP32-C6-MINI-1", 0, -5.22, 0, {
+        "3": V33, "8": "EN", "23": "BOOT", "22": "IO8", "20": "IO15", "19": "IO14",
+        "17": "USB_DN", "18": "USB_DP", "1": GND, "2": GND, "11": GND, "14": GND,
         **{str(n): GND for n in range(36, 54)}}),
     "J1": ("usb", "USB-C", 0, 11.11, 0, {
         "A1B12": GND, "B1A12": GND, "1": GND, "2": GND, "3": GND, "4": GND, "A4B9": VBUS, "B4A9": VBUS,
         "A5": "CC1", "B5": "CC2", "A6": "USB_DP", "B6": "USB_DP", "A7": "USB_DN", "B7": "USB_DN"}),
     "LED1": ("led", "WS2812B", 0, 3.4, 0, {"1": VLED, "3": GND, "4": "LED_DIN"}),
     "TP1": ("tp", "BOOT-GND", 3.5, 3, 0, {"1": "BOOT", "2": GND}),  # bottom side, bare pads: short them while plugging in = download mode
-    "U2": ("reg", "AMS1117-3.3", -11.3, 0, 0, {"1": GND, "2": V33, "3": VBUS, "4": V33}),
+    "U2": ("reg", "AP2114H-3.3", -11.3, 0, 0, {"1": GND, "2": V33, "3": VBUS, "4": V33}),
     "D1": ("d", "1N4148W", 11.5, 7, 0, {"1": VLED, "2": VBUS}),
     "D2": ("d", "SMF5.0A", -7.4, 9.5, 0, {"1": GND, "2": VBUS}),  # TVS: hot-plug spikes would reach the LED (VDD max 5.3 V) through D1
     "C1": ("c8", "10uF", -9, -6.2, 0, {"1": VBUS, "2": GND}),
@@ -38,8 +38,8 @@ PARTS = {
     "R3": ("r6", "10k", -13.5, 5.5, 0, {"1": V33, "2": "EN"}),
     "R4": ("r6", "10k", 9.5, -6, 0, {"1": V33, "2": "BOOT"}),
     "R5": ("r6", "10k", 9.5, -4, 0, {"1": V33, "2": "IO8"}),
-    "R6": ("r6", "10k", 9.5, -2, 0, {"1": V33, "2": "IO25"}),
-    "R7": ("r6", "470R", 6.5, 2.5, 0, {"1": "IO4", "2": "LED_DIN"}),
+    "R6": ("r6", "10k", 9.5, -2, 0, {"1": V33, "2": "IO15"}),
+    "R7": ("r6", "470R", 6.5, 2.5, 0, {"1": "IO14", "2": "LED_DIN"}),
     "R8": ("r6", "10k", 9.1, 2.5, 0, {"1": "LED_DIN", "2": GND}),  # keeps DIN low until firmware drives it
 }
 nets = ["", GND, VBUS, VLED, V33] + sorted({n for p in PARTS.values() for n in p[5].values()} - {GND, VBUS, VLED, V33})

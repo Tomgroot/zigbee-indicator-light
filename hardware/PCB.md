@@ -13,18 +13,18 @@ Enclosure: `base_indicator_light.stl` + `cap_indicator_light.stl`. PCB bottom si
 |---|---|
 | VBUS | J1 A4/B4/A9/B9, U2.3 (VIN), C1, D1 anode, D2 cathode (TVS to GND, clamps hot-plug spikes) |
 | VLED | D1 cathode, LED1 VDD, C6. The diode drops ~0.7 V so 3.3 V data meets WS2812 VIH |
-| 3V3 | U2.2 + tab, C2, C3, C4, U1.3 (3V3), U1.15 (VBAT), R3, R4, R5, R6 |
+| 3V3 | U2.2 + tab, C2, C3, C4, U1.3 (3V3), R3, R4, R5, R6 |
 | GND | J1 A1/B1/A12/B12 + shell, U2.1, U1.1/2/11/14/36-53, all caps, TP1.2, R1, R2, R8, D2 anode, LED1 VSS |
 | CC1 / CC2 | J1 A5 - R1 - GND / J1 B5 - R2 - GND |
-| USB_D+ | J1 A6 + B6 - U1.27 (IO27) |
-| USB_D- | J1 A7 + B7 - U1.26 (IO26) |
+| USB_D+ | J1 A6 + B6 - U1.18 (IO13) |
+| USB_D- | J1 A7 + B7 - U1.17 (IO12) |
 | EN | U1.8, R3 to 3V3, C5 to GND |
 | BOOT | U1.23 (IO9), R4 to 3V3, TP1.1 (bare pad, short to TP1.2 = GND) |
 | IO8 | U1.22, R5 to 3V3 (strapping pin) |
-| IO25 | U1.25, R6 to 3V3 (strapping pin, datasheet: must not float) |
-| LED_DIN | U1.18 (IO4) - R7 - LED1 DIN, R8 to GND (keeps the LED dark until firmware runs) |
+| IO15 | U1.20, R6 to 3V3 (strapping pin, no internal pull: datasheet says it must be driven) |
+| LED_DIN | U1.19 (IO14) - R7 - LED1 DIN, R8 to GND (keeps the LED dark until firmware runs) |
 
-Flashing and logs go over the H2's native USB Serial/JTAG, so no USB-UART chip is needed.
+Flashing and logs go over the C6's native USB Serial/JTAG, so no USB-UART chip is needed.
 Download mode: short the TP1 pads (BOOT, GND) with tweezers while plugging in. Zigbee factory reset: firmware counts power-ups, 5 in a row.
 
 ## Placement
@@ -46,3 +46,15 @@ Keep Ø6 mm around each mounting hole free of copper and parts on both layers (s
 Use nylon screws for the two +Y (antenna side) holes; metal screws there sit ~4 mm from the antenna.
 
 Routing rules (`route.py`): no vias under the USB-C shell (it is grounded metal), GND stitching vias on a 2 mm grid joining both pours.
+
+## Rev 2 notes (battery, not built)
+
+- U2 is already an AP2114H (SOT-223, 1 A, stable with ceramic caps). For a cell, a lower-quiescent LDO such as AP2112K-3.3 (C51118) is better, but its SOT-23-5 package overheats at 5 V in / 0.4 A peaks; only use it from the battery.
+- Add a charger (MCP73831 or TP4056) and cell protection. The WS2812B-B-V6 idles at under 1 uA (datasheet), so no LED switch is needed.
+- Free GPIOs: IO3 (ADC1_CH3, battery sense) and IO2. Keep the cell away from the antenna edge.
+
+## Power budget (USB 5 V)
+
+- C6 peak supply current (datasheet): Wi-Fi TX up to 382 mA, 802.15.4 TX 305 mA, BLE 309 mA, RX about 75 mA. The module needs a supply that delivers 0.5 A; the AP2114H gives 1 A.
+- Worst case 5 V to 3.3 V at 0.38 A is 0.65 W, about +83 C on the SOT-223 (128 C/W) while transmitting continuously. Average dissipation is much lower.
+- With the LED at full white (about 60 mA) the board stays under the 500 mA USB limit, but only just. Cap the LED brightness in firmware.

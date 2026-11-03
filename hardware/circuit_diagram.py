@@ -105,7 +105,7 @@ text(60, 500, "CC1/CC2 resistors tell the charger", "start", 12), text(60, 517, 
 
 # ---- 2. 3.3 V regulator --------------------------------------------------------------------
 title(480, 50, "2. 3.3 V regulator")
-box(600, 90, 160, 110, "U2 AMS1117-3.3")
+box(600, 90, 160, 110, "U2 AP2114H-3.3")
 line(540, 130, 600, 130), pin(600, 130, "VIN", "left"), flag(520, 130, "VBUS", up=False), line(520, 130, 540, 130)
 dot(560, 130), cap(560, 130, 190, "C1", "10uF", "left"), gnd(560, 190)
 line(760, 130, 900, 130), pin(760, 130, "VOUT", "right")
@@ -125,18 +125,17 @@ line(600, 420, 740, 420), pin(740, 420, "VDD", "left")
 line(690, 500, 740, 500), pin(740, 500, "DIN", "left"), res_h(640, 690, 500, "R7", "470R")
 line(640, 500, 625, 500)
 dot(715, 500), res(715, 500, 570, "R8", "10k", "left"), gnd(715, 570)
-text(619, 505, "IO4", "end", 13, True)
+text(619, 505, "IO14", "end", 13, True)
 line(820, 530, 820, 545), pin(820, 530, "VSS", "bottom"), gnd(820, 545)
 
 # ---- 4. ESP32 ------------------------------------------------------------------------------
-title(980, 50, "4. ESP32-H2 module (Zigbee radio + antenna)")
-box(1230, 90, 220, 650, "U1 ESP32-H2-MINI-1")
-rows = {"3V3": 140, "VBAT": 190, "EN": 270, "IO9": 400, "IO8": 520, "IO25": 590, "IO27": 650, "IO26": 700}
+title(980, 50, "4. ESP32-C6 module (Zigbee/Thread/Wi-Fi radio + antenna)")
+box(1230, 90, 220, 650, "U1 ESP32-C6-MINI-1")
+rows = {"3V3": 140, "EN": 270, "IO9": 400, "IO8": 520, "IO15": 590, "IO13": 650, "IO12": 700}
 for n, y in rows.items():
     line(1210, y, 1230, y), pin(1230, y, n, "left")
-line(1210, 140, 1170, 140), line(1170, 140, 1170, 190), line(1170, 190, 1210, 190), dot(1170, 165)
-line(1170, 165, 1170, 120), flag(1170, 120, "3V3")
-dot(1130, 165), line(1170, 165, 1130, 165), cap(1130, 165, 215, "C4", "100nF", "left"), gnd(1130, 215)
+line(1210, 140, 1170, 140), dot(1170, 140), line(1170, 140, 1170, 120), flag(1170, 120, "3V3")
+dot(1130, 140), line(1170, 140, 1130, 140), cap(1130, 140, 200, "C4", "100nF", "left"), gnd(1130, 200)
 # EN: pull-up and delay capacitor
 line(1210, 270, 1070, 270), dot(1070, 270)
 res(1070, 190, 270, "R3", "10k", "left"), flag(1070, 190, "3V3")
@@ -147,19 +146,19 @@ res(990, 320, 400, "R4", "10k", "left"), flag(990, 320, "3V3")
 line(990, 400, 990, 424), line(990, 462, 990, 470), gnd(990, 470)
 out.append('<circle cx="990" cy="430" r="6" fill="white"/><circle cx="990" cy="456" r="6" fill="white"/>')
 text(974, 436, "TP1", "end", 13, True), text(974, 451, "bare pads", "end", 12)
-# IO8 and IO25: pull-ups only (strapping pins)
+# IO8 and IO15: pull-ups only (strapping pins)
 line(1210, 520, 1130, 520), dot(1130, 520), res(1130, 450, 520, "R5", "10k", "left"), flag(1130, 450, "3V3")
 line(1210, 590, 1070, 590), dot(1070, 590), res(1070, 520, 590, "R6", "10k", "left"), flag(1070, 520, "3V3")
 # USB data
 for y, n in ((650, "USB_D+"), (700, "USB_D-")):
     line(1210, y, 1100, y), text(1094, y + 5, n, "end", 13, True)
 # LED data out, ground
-line(1450, 140, 1490, 140), text(1496, 145, "IO4", "start", 13, True), pin(1450, 140, "IO4", "right")
+line(1450, 140, 1490, 140), text(1496, 145, "IO14", "start", 13, True), pin(1450, 140, "IO14", "right")
 line(1340, 740, 1340, 755), pin(1340, 740, "GND", "bottom"), gnd(1340, 755)
-text(480, 640, "IO8 / IO25 pull-ups keep these boot-mode pins from floating.", "start", 12)
+text(480, 640, "IO8 / IO15 pull-ups keep these strapping pins from floating.", "start", 12)
 text(480, 660, "Short the TP1 pads while plugging in USB = flash mode.", "start", 12)
 text(480, 677, "Plug in 5 times in a row = Zigbee factory reset (firmware).", "start", 12)
-text(30, 830, "Same net name = same wire (VBUS, 3V3, VLED, USB_D+, USB_D-, IO4). All ground symbols are connected.", "start", 13)
+text(30, 830, "Same net name = same wire (VBUS, 3V3, VLED, USB_D+, USB_D-, IO14). All ground symbols are connected.", "start", 13)
 
 svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="860" viewBox="0 0 1560 860" font-family="sans-serif">\n<rect width="1560" height="860" fill="white"/>\n<g stroke="#111" stroke-width="2" fill="none" stroke-linecap="round">\n' + "\n".join(out) + "\n</g>\n</svg>\n"
 open("circuit_diagram.svg", "w").write(svg)
