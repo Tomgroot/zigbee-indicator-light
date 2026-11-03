@@ -25,7 +25,7 @@ Known DRC findings that are fine:
 ## 3. Order
 
 1. Check the LCSC numbers in `bom.csv`. Stock was checked against JLCPCB on 2026-11-03; all parts were in stock (ESP32-C6-MINI-1-N4 C5736265: 3400, WS2812B-B-V6 C52941391: 7725, AP2114H-3.3 C150716: 2858). Re-match in the BOM tool before ordering.
-2. Use **Order → PCB / Assembly** in EasyEDA.
+2. In EasyEDA use **Export → PCB Fabrication File(Gerber)** and click **Export Gerber**. On jlcpcb.com upload the zip, turn on PCB Assembly, then upload `bom.csv` and `cpl.csv` instead of the generated files: the KiCad import carries no LCSC numbers, so JLCPCB guesses (it picked the out-of-stock C5453904 for U1 and found nothing for six parts). `cpl.csv` leaves out the screw holes (H1-H4) and TP1. Regenerate it if parts move.
 
 ## If something goes wrong
 
@@ -51,14 +51,14 @@ Board: 32.4 x 32.4 mm. If the order form shows another size (70.4 mm was seen), 
 | Product type | industrial electronics | |
 | Different design / delivery format | 1 / single PCB | |
 | Thickness | 1.6 mm | |
-| Solder mask / silkscreen | white / black | Per JLCPCB no surcharge, but may add ~2 days |
+| Solder mask / silkscreen | green / white | Economic PCBA: white mask only with leaded HASL |
 | Material | FR-4 standard Tg (130-135) | |
-| Surface finish | ENIG (lead-free HASL if cheaper) | TP1 are bare copper pads on the bottom: OSP oxidises there. OSP only if you flash soon |
+| Surface finish | Lead-free HASL | TP1 are bare copper pads on the bottom: OSP oxidises there. ENIG is flatter but ~15x the price. NOTE: not the default, change it |
 | Outer copper | 1 oz | |
 | Via covering | tented | Required: vias must not be exposed near the grounded USB-C shell |
 | Min via hole | 0.3 mm | Board vias are 0.4 mm |
 | Outline tolerance | +-0.2 mm (regular) | Enclosure gap is 0.3 mm |
-| Confirm production file | yes (first order) | |
+| Confirm production file | yes (first order) | NOTE: not the default, change it |
 | Mark on PCB | remove mark | May cost extra |
 | Electrical test | flying probe, full | |
 | Gold fingers, castellated, edge plating, blind slots, UL mark, HIC | no | |
@@ -72,7 +72,7 @@ Assembly:
 | Edge rails / fiducials | added by JLCPCB | |
 | Confirm parts placement | yes | Check polarity of D1, D2 (SOD-123), pin 1 of LED1 and orientation of U1 and J1 |
 | Parts selection | by customer (self-service) | Extended parts (U1, J1, LED1, D2) carry a fee each |
-| Depanel boards and rails before delivery | yes | Leftover tab stubs would eat the 0.3 mm enclosure gap |
+| Depanel boards and rails before delivery | yes | Leftover tab stubs would eat the 0.3 mm enclosure gap. NOTE: not the default, change it |
 | Solder paste | high temp (lead-free) | |
 | Stencil/fixture storage, bake, cleaning, tests, photo, coating, special stencil, nitrogen | no | |
 | Packaging | antistatic bubble film | |

@@ -1,8 +1,8 @@
-Comment,Designator,Footprint,LCSC,JLC type
+Comment,Designator,Footprint,JLCPCB Part #（optional）,JLC type
 ESP32-C6-MINI-1-N4,U1,ESP32-C6-MINI-1,C5736265,Extended
-AP2114H-3.3,U2,SOT-223,C150716 (AMS1117 C6186 needs a tantalum output cap),Extended
+AP2114H-3.3,U2,SOT-223,C150716,Extended
 TYPE-C-31-M-12 (USB-C 16p),J1,USB-C SMD,C165948,Extended
-WS2812B-B-V6,LED1,5050,C52941391 (C2761795 is out of stock; verify pin order),Extended
+WS2812B-B-V6,LED1,5050,C52941391,Extended
 1N4148W,D1,SOD-123,C81598,Basic
 SMF5.0A (TVS),D2,SOD-123FL,C151296,Extended
 22uF,C2,0805,C45783,Basic
