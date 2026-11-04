@@ -1,0 +1,5 @@
+Comment,Designator,Footprint,JLCPCB Part #,JLC type
+SK6812-B,LED1,5050,C5380881,Extended
+1N4148W,D1,SOD-123,C81598,Basic
+100nF,C1,0603,C14663,Basic
+470R,R1,0603,C23179,Basic

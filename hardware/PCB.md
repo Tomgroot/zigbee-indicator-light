@@ -58,3 +58,16 @@ Routing rules (`route.py`): no vias under the USB-C shell (it is grounded metal)
 - C6 peak supply current (datasheet): Wi-Fi TX up to 382 mA, 802.15.4 TX 305 mA, BLE 309 mA, RX about 75 mA. The module needs a supply that delivers 0.5 A; the AP2114H gives 1 A.
 - Worst case 5 V to 3.3 V at 0.38 A is 0.65 W, about +83 C on the SOT-223 (128 C/W) while transmitting continuously. Average dissipation is much lower.
 - With the LED at full white (about 60 mA) the board stays under the 500 mA USB limit, but only just. Cap the LED brightness in firmware.
+
+## LED shield for ESP32-H2 SuperMini (cheap variant)
+
+`shield.kicad_pcb` (from `python3 build_shield.py`, routed, self-checked) is an 18 x 23.6 mm board (29 mm wide over the screw tabs) that slides onto the long header pins under a SuperMini H2 (2x9, 2.54 mm pitch, rows 15.24 mm apart). Solder at least 5V, GND and IO8 (5V is the square pad). Parts face away from the SuperMini; its USB end is marked on the bottom silk.
+
+- LED1 SK6812-B (C5380881, extended, Economic OK) on IO8, in parallel with the SuperMini's own WS2812: same protocol, no firmware change; colour may differ slightly. WS2812B-B-V6 (C52941391) is Standard PCBA only. JLCPCB holds orders with C5380881 for baking (MSL3, $7.82, Standard PCBA only); every in-stock 5050 alternative is Standard-only or also flagged (checked 2026-11-05), so for boards that are sold order Standard PCBA with baking; only for throwaway prototypes order Economic with the remark "proceed without baking, customer accepts risk". Pinout assumed equal to WS2812B (1 VDD, 2 DOUT, 3 GND, 4 DIN): confirm in the datasheet before ordering.
+- D1 1N4148W drops 5V to ~4.2 V so 3.3 V data meets VIH. C1 100 nF at VDD, R1 470R in the data line.
+- Order: JLCPCB **Economic** PCBA with `shield_bom.csv` / `shield_cpl.csv`. Check each part's PCBA type with `jlc.py --bom shield_bom.csv` (`pcba` column must be `econ`). Check LED1 pin 1 and D1 polarity in the placement preview.
+- Two M2 holes (Ø2.2) at (±12, 0) in side tabs (board 29 x 23.6 mm). They take M2 self-tapping screws into the two Ø5 bosses of `base_indicator_light.stl` (from `base.py`), at STL (5.5, 13.1) and (29.5, 13.1). The SuperMini hangs upside down below the shield with its USB-C centre at z 4.0 (`USB_Z`, keeps the plug overmould off the table); the wall USB hole is at that height. The boss top z 9.1 is an estimate (USB-C 3.2 + SuperMini PCB 1.0 + header spacer 2.5): measure the stack and update `base.py`. The base no longer has the C6 board's corner bosses.
+
+### H2-Zero variant
+
+`shield_zero.kicad_pcb` (`python3 build_shield.py zero`) is for the Waveshare ESP32-H2-Zero. The Zero's power row is on the other side and its IO8 is a bottom pad only, so the LED data comes from **IO22** (firmware change) and the parts are re-placed (LED1 rotated 270). Same BOM (`shield_bom.csv`); placement in `shield_zero_cpl.csv`. Pinout, 15.24 mm row spacing and 18 x 23.5 mm outline checked against the Waveshare schematic and size drawing. The Zero's ceramic antenna sits centred at the end opposite USB-C, over a ground-free area from about y = +6.7 (shield coordinates) to the edge: keep all shield copper except the header pads out of it. IO10 (last pin at that end) is not used for that reason.

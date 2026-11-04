@@ -1,0 +1,5 @@
+Designator,Mid X,Mid Y,Layer,Rotation
+LED1,0mm,0mm,Top,270
+D1,3mm,9mm,Top,0
+C1,4mm,2.45mm,Top,180
+R1,-5mm,-1.5mm,Top,270
